@@ -5,6 +5,8 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
 FROM node:24-bookworm-slim
+LABEL org.opencontainers.image.source="https://github.com/Consumer-Choice-Center/cp-brand-mcp"
+LABEL org.opencontainers.image.description="Considerate Pouchers one-pager MCP"
 ENV NODE_ENV=production CP_BRAND_FONT_CONFIG=/config/fonts.json CP_BRAND_OUTPUT_DIR=/app/deliverables
 WORKDIR /app
 COPY --from=dependencies /app/node_modules ./node_modules
