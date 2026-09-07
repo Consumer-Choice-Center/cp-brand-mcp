@@ -1,0 +1,78 @@
+{
+  "mode": "draft",
+  "headline": "CONSIDERATE POUCHERS:",
+  "headlineAccent": "CLEAR RULES.\nINFORMED CHOICES.",
+  "strapline": "PRODUCT STANDARDS.\nADULT ACCESS.\nACCOUNTABILITY.",
+  "heroImage": "assets/images/reference-pouch.png",
+  "heroAlt": "Open pouch container from the supplied CP one-pager reference",
+  "callouts": [
+    {
+      "title": "ADULT ACCESS",
+      "body": "Set out the proposed age restrictions and how they would be enforced.",
+      "image": "assets/images/reference-adults.png",
+      "imageAlt": "Adults from the supplied reference",
+      "useReferenceImage": true
+    },
+    {
+      "title": "CLEAR LABELS",
+      "body": "Explain the information consumers should see before choosing a product.",
+      "image": "assets/images/reference-tobacco-free.png",
+      "imageAlt": "Tobacco-free illustration from the supplied reference",
+      "useReferenceImage": true
+    },
+    {
+      "title": "OVERSIGHT",
+      "body": "Define who checks standards and what happens when rules are broken.",
+      "image": "assets/images/reference-product-standards.png",
+      "imageAlt": "Product standards illustration from the supplied reference",
+      "useReferenceImage": true
+    }
+  ],
+  "statistic": {
+    "value": "FOUR PRIORITIES",
+    "label": "A FRAMEWORK FOR THE POLICY DISCUSSION",
+    "detail": "Standards, age checks, information and oversight.",
+    "method": "Design demonstration. Replace with verified policy evidence."
+  },
+  "context": "THIS DRAFT DEMONSTRATES THE CP ONE-PAGER FORMAT. IT DOES NOT ASSERT POLICY OUTCOMES.",
+  "transition": "DEFINE. EXPLAIN. CHECK.",
+  "cards": [
+    {
+      "title": "STANDARDS",
+      "subtitle": "PRODUCT RULES",
+      "body": "Describe product requirements and the authority responsible for market oversight."
+    },
+    {
+      "title": "ADULTS",
+      "subtitle": "AGE VERIFICATION",
+      "body": "Explain the proposed age checks for retail and online sales."
+    },
+    {
+      "title": "INFORMATION",
+      "subtitle": "CLEAR LABELS",
+      "body": "State what information should appear on the pack and at the point of sale."
+    },
+    {
+      "title": "OVERSIGHT",
+      "subtitle": "ACCOUNTABILITY",
+      "body": "Identify the responsible bodies, checks and enforcement measures."
+    }
+  ],
+  "takeaway": {
+    "title": "MAKE THE PROPOSAL PRACTICAL",
+    "body": "Use this space for a concise recommendation supported by the evidence above. Replace demonstration copy with reviewed content before publication."
+  },
+  "sources": [
+    {
+      "label": "Design references: supplied CP Brand Guidelines and CP Onepager V3. Demonstration copy only."
+    }
+  ],
+  "factsVerified": false,
+  "logo": "CP_Logo_Wide_1.svg",
+  "topic": "A clear regulatory framework for adult nicotine pouch products",
+  "centralVisual": {
+    "concept": "Open pouch container, explicitly reused here to demonstrate the supplied reference layout.",
+    "frame": "circle",
+    "useReferenceImage": true
+  }
+}

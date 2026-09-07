@@ -1,0 +1,61 @@
+{
+  "source": "User-supplied CP files; four images extracted losslessly from CP_Onepager_V3.pdf using pypdf.",
+  "files": [
+    {
+      "path": "assets/logos/CP_Logo_1.svg",
+      "sha256": "2c7b4b11f9490f3350b1a8f6a74f907be632ea93fc0eb3c67cc325eec4bfe932"
+    },
+    {
+      "path": "assets/logos/CP_Logo_2.svg",
+      "sha256": "1f5fdf6a9f133f6e8dafb2980aca9f0ca619510db07d291b3d2d6bf894d48ca6"
+    },
+    {
+      "path": "assets/logos/CP_Logo_3.svg",
+      "sha256": "a47dc4c55f71e39506a072b26a5810cbc3704aab577f914d9b517e8c89b9046f"
+    },
+    {
+      "path": "assets/logos/CP_Logo_4.svg",
+      "sha256": "2262f3b56eda21fc0b3a4b0a743b6b02a910fac34a7e76ed14ace16b3d35cc4b"
+    },
+    {
+      "path": "assets/logos/CP_Logo_5.svg",
+      "sha256": "b23e7b9dddfdf0ab6f4181ec09d798521c730f6d1e75914f53d7df38cd78c5bc"
+    },
+    {
+      "path": "assets/logos/CP_Logo_6.svg",
+      "sha256": "9ef5c9307c41c3ac20737e975f01121df2d288d7da5ec65eda996cf07d850179"
+    },
+    {
+      "path": "assets/logos/CP_Logo_Wide_1.svg",
+      "sha256": "c2192f6dab6991fa397b904f96947906d2fd2304277f7051be8caff33fac0534"
+    },
+    {
+      "path": "assets/logos/CP_Logo_Wide_2.svg",
+      "sha256": "df72ee8c0c02c64d6b6a92e2e5ecc57fdc3648ac2ef841e3a38863a5a63a24c4"
+    },
+    {
+      "path": "assets/references/CP_Brand_Guidelines.pdf",
+      "sha256": "421575f5dd0599f0d544656f23cba4455ec55419522978459c36c59a39a4e723"
+    },
+    {
+      "path": "assets/references/CP_Onepager_V3.pdf",
+      "sha256": "7cd760b7568e636cb35c4b9192f96a42e11afd631710d2d187b877708584ae88"
+    },
+    {
+      "path": "assets/images/reference-adults.png",
+      "sha256": "37fc1b4fe849a206e962c1d254d0f6e9e65b3bf617699e6e789ccbcddd73afcb"
+    },
+    {
+      "path": "assets/images/reference-pouch.png",
+      "sha256": "0a6bc4132a5a544d85f1ff0eb67eb04d389698d88c573613330c3f9a375a55d4"
+    },
+    {
+      "path": "assets/images/reference-product-standards.png",
+      "sha256": "5de13e0c13d9f0eadffd17ef03fa73a1c4c0b955bd6ec7ec44b1098a88c666e4"
+    },
+    {
+      "path": "assets/images/reference-tobacco-free.png",
+      "sha256": "8d2c585859e2780d1071ae00881dda86238ff95e82e9ad78274ae357e7f851e1"
+    }
+  ]
+}

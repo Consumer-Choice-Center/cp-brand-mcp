@@ -1,0 +1,9 @@
+.git
+node_modules
+deliverables
+inputs
+tmp
+assets/fonts
+data/fonts.local.json
+.env*
+*.tgz

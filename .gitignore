@@ -1,0 +1,14 @@
+node_modules/
+deliverables/
+tmp/
+assets/fonts/
+
+inputs/
+data/fonts.local.json
+.env
+.env.*
+*.tgz
+.DS_Store
+scripts/one-pager-task.mjs
+scripts/one-pager-v03-task.mjs
+scripts/one-pager-v04-task.mjs

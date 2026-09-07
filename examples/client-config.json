@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cp-brand": {
+      "command": "node",
+      "args": ["/absolute/path/to/cp-brand-mcp/src/server.mjs"]
+    }
+  }
+}

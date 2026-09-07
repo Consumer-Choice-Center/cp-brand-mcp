@@ -1,0 +1,14 @@
+{
+  "headline": {
+    "path": "../assets/fonts/Futura.ttc",
+    "postscriptName": "Futura-Medium"
+  },
+  "subhead": {
+    "path": "../assets/fonts/ProximaNova-Semibold.otf",
+    "postscriptName": "ProximaNova-Semibold"
+  },
+  "body": {
+    "path": "../assets/fonts/ProximaNova-Regular.otf",
+    "postscriptName": "ProximaNova-Regular"
+  }
+}
