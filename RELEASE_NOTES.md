@@ -1,11 +1,14 @@
-Standalone public release of Considerate Pouchers Brand MCP.
+# CP Brand MCP 0.8.0
 
-- One-pager-only generation with CP fonts, palette and eight official logos.
-- Contextual central illustration inside a filled circle and three enlarged, independently illustrated key points.
-- Subtle full-page CP pouch-symbol watermark.
-- Editable SVG, outlined SVG companion and JSON source.
-- Nine MCP tools, strict validation, asset checks and local-path protections.
-- Portable startup, public CI, pinned dependencies and container deployment.
+Adds seven Considerate Pouchers social/quote templates alongside the existing one-pager tools, plus HTTP configuration for hosting CP beside CCC and WVA.
 
-Supply licensed Futura Medium and Proxima Nova fonts as described in DEPLOYMENT.md.
-GitHub hosts source and releases; clients run this stdio server locally or over SSH.
+- 18 local stdio tools; English and Swedish; editable SVG, outlined SVG, PNG and source JSON.
+- Real unbranded pouch imagery, smooth outward arrows, subtle grain and paired color/greyscale treatments.
+- Bounded speaker portrait placement, larger attribution text, and no logo/text backing boxes or quote/scene gradients.
+- Independent rendered contrast, visibility, overlap and text-bound checks; final exports reject failed visual QA.
+- Stateless read-only HTTP with seven tools and three resources, host validation, body/rate/concurrency limits and security headers.
+- Separate CP Compose/Caddy configuration on port 8083 and the existing shared Docker network.
+- Private font mounts and encrypted GitHub Actions font-secret provisioning; no licensed font binaries in the repository, package or image.
+- Regression, portability, protocol and container checks.
+
+HTTP provides read-only brand guidance, discovery and briefs. Full rendering remains available through local or authorized SSH stdio. Live server deployment is separate from publishing this repository.

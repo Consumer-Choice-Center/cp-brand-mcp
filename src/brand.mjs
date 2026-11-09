@@ -50,7 +50,7 @@ export const contentSchema = z.object({
     concept:str(1200).optional(),
     frame:z.literal('circle').default('circle'),
     useReferenceImage:z.boolean().default(false)
-  }).strict().default({}),
+  }).strict().prefault({}),
   headline:str(110), headlineAccent:str(110),
   strapline:str(100),
   heroImage:str(1000).optional(),

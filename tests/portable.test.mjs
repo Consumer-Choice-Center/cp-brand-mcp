@@ -15,7 +15,7 @@ test('public install starts without private fonts, serves rules and blocks rende
   const status=JSON.parse((await call('get_mcp_status')).content[0].text);
   assert.equal(status.server,'cp-brand-mcp');assert.equal(status.assetHealth.ok,false);
   assert.ok(status.assetHealth.violations.some(v=>v.includes('Font configuration unavailable')));
-  assert.equal((await client.listTools()).tools.length,9);
+  assert.equal((await client.listTools()).tools.length,18);
   const guide=JSON.parse((await call('get_brand_guidelines')).content[0].text);assert.equal(guide.colors.coral,'#EA5265');
   const content=JSON.parse(fs.readFileSync(path.join(root,'examples/one-pager.json'),'utf8'));
   const plan=JSON.parse((await call('create_one_pager_visual_prompts',{content})).content[0].text);assert.equal(plan.visuals.length,4);

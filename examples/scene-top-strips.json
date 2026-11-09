@@ -1,0 +1,15 @@
+{
+  "template": "scene_top_strips",
+  "language": "en",
+  "mode": "draft",
+  "headline": "Real people.\nReal experiences.\nA conversation that matters.",
+  "imageAlt": "Describe the supplied original scene photograph.",
+  "imageProvenance": "provided_photo",
+  "imageTreatment": "both",
+  "scene": {
+    "backgroundMode": "replace",
+    "scale": 1,
+    "offsetX": 0,
+    "offsetY": 0
+  }
+}

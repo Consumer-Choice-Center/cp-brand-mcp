@@ -9,7 +9,7 @@ await client.connect(new StdioClientTransport({command:process.execPath,args:[pa
 const call=async(name,args={})=>{const r=await client.callTool({name,arguments:args});if(r.isError)throw Error(r.content[0].text);return JSON.parse(r.content[0].text);};
 try {
  const status=await call('get_mcp_status');assert.equal(status.server,'cp-brand-mcp');assert.equal(status.assetHealth.ok,true);
- const list=await client.listTools();assert.equal(list.tools.length,9);assert.ok(!list.tools.some(t=>/social|quote_post/.test(t.name)));
+ const list=await client.listTools();assert.equal(list.tools.length,18);assert.ok(list.tools.some(t=>t.name==='create_quote_post'));assert.ok(list.tools.some(t=>t.name==='create_cutout_post'));
  const guidelines=await call('get_brand_guidelines');assert.equal(guidelines.colors.teal,'#1D6379');
  const content=JSON.parse(fs.readFileSync(path.join(root,'examples/one-pager.json'),'utf8'));
  const dynamic={...content,heroImage:undefined,topic:'Retail age verification',centralVisual:{concept:'Adult customer completing an age check at a retail counter'}};

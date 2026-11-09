@@ -56,6 +56,37 @@
     {
       "path": "assets/images/reference-tobacco-free.png",
       "sha256": "8d2c585859e2780d1071ae00881dda86238ff95e82e9ad78274ae357e7f851e1"
+    },
+    {
+      "path": "assets/references/social/CP_Soc1.svg",
+      "sha256": "40031b13b1d0ae8656a643d46be150c0352af8dc112c70f3d5598e84ab1165ee"
+    },
+    {
+      "path": "assets/references/social/CP_Soc2.svg",
+      "sha256": "2a5b12bd0d459b5edc6518efd04f53cc54754fd50e972c23966dbc505b438a40"
+    },
+    {
+      "path": "assets/references/social/CP_Quote1.svg",
+      "sha256": "a0f7dfcfd73ac10b355977b406ff9e92ce5e6c7c609735108bf5b9667aed7f29"
+    },
+    {
+      "path": "assets/references/social/CP_Quote2.svg",
+      "sha256": "812ed9119d861ddb66c8de578dd70bc92ddbc02df4c773d4542f3d9296a1395e"
+    },
+    {
+      "path": "assets/logos/CP_Logo_Wide_White_Reference.svg",
+      "sha256": "ef7edb0860870ab20765530f52a0740090fa39d8175c8eddfa7c451404c6b536",
+      "source": "Unmodified logo path, text and definitions extracted from user-supplied CP_Quote1.svg; viewBox isolates the complete logo."
+    },
+    {
+      "path": "assets/references/social/CP_PhotoScene_TopStrips.jpg",
+      "sha256": "ed5a9bd1714b292fff50ae6513c434382a2ad653d77bdfb4235cf0b162154e05",
+      "source": "User-supplied social composition reference. Screenshot artwork and copy are not runtime defaults."
+    },
+    {
+      "path": "assets/references/social/CP_PhotoScene_OverlayStrips.jpg",
+      "sha256": "4b5975a3bf79828d435618f475fb571c939a0e9f680f1501ab241c3ebb7ae320",
+      "source": "User-supplied social composition reference. Screenshot artwork and copy are not runtime defaults."
     }
   ]
 }

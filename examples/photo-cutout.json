@@ -1,0 +1,12 @@
+{
+  "template": "photo_cutout",
+  "language": "en",
+  "mode": "draft",
+  "headline": "Make your voice heard",
+  "body": "Share your experience. Join the conversation.",
+  "cta": "Take part in the discussion",
+  "topic": "Participation in public discussion",
+  "imageTreatment": "both",
+  "grainAmount": 0.08,
+  "outlineWidth": 7
+}

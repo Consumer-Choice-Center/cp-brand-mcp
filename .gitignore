@@ -12,3 +12,9 @@ data/fonts.local.json
 scripts/one-pager-task.mjs
 scripts/one-pager-v03-task.mjs
 scripts/one-pager-v04-task.mjs
+
+runtime-private/
+runtime-config/
+fonts/
+
+!deploy/.env.example

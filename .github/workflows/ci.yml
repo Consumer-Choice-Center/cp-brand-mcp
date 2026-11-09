@@ -21,6 +21,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run check
       - run: pnpm run test:portable
+      - run: pnpm run test:http
       - run: pnpm run audit:prod
       - run: npm pack --dry-run
   container:
@@ -30,5 +31,16 @@ jobs:
       - run: docker build -t cp-brand-mcp:test .
       - name: Test packaged stdio connection without private fonts
         run: |
-          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"ci","version":"1.0.0"}}}' | docker run --rm -i cp-brand-mcp:test | tee /tmp/mcp-result
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"ci","version":"1.0.0"}}}' | docker run --rm -i cp-brand-mcp:test node src/server.mjs | tee /tmp/mcp-result
           grep '"serverInfo"' /tmp/mcp-result
+      - name: Check HTTP container health
+        run: |
+          docker run -d --name cp-http -p 127.0.0.1:8083:8083 cp-brand-mcp:test
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:8083/healthz > /tmp/cp-health.json; then break; fi
+            sleep 1
+          done
+          python3 -c 'import json; assert json.load(open("/tmp/cp-health.json"))["server"] == "cp-brand-mcp"'
+      - name: Stop test container
+        if: always()
+        run: docker rm -f cp-http || true
