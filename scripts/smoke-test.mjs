@@ -5,7 +5,8 @@ import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';
 import {root} from '../src/brand.mjs';
 const client=new Client({name:'cp-smoke',version:'1.0.0'});
-await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'src/server.mjs')],cwd:root}));
+const env=process.env.CP_BRAND_FONT_CONFIG?{CP_BRAND_FONT_CONFIG:process.env.CP_BRAND_FONT_CONFIG}:{};
+await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'src/server.mjs')],cwd:root,env}));
 const call=async(name,args={})=>{const r=await client.callTool({name,arguments:args});if(r.isError)throw Error(r.content[0].text);return JSON.parse(r.content[0].text);};
 try {
  const status=await call('get_mcp_status');assert.equal(status.server,'cp-brand-mcp');assert.equal(status.assetHealth.ok,true);
