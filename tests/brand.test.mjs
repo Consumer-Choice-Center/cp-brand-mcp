@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import {root,render,validateSvg,outlineSvg,createOnePager,validateFile,auditAssets} from '../src/brand.mjs';
 const example=JSON.parse(fs.readFileSync(path.join(root,'examples/one-pager.json'),'utf8'));
 test('CP assets and exact brand fonts are available',()=>assert.equal(auditAssets().ok,true));
@@ -28,9 +29,14 @@ test('final mode blocks unverified claims, missing imagery and missing sources',
 test('HTML in copy is inert escaped text',()=>{
  const r=render({...example,headline:'<script>TEXT</script>'});assert.ok(r.svg.includes('&lt;script&gt;'));assert.equal(validateSvg(r.svg,r.content).ok,true);
 });
-test('path traversal and external source imagery are rejected',()=>{
+test('path traversal and external source imagery are rejected',(t)=>{
+ const external=fs.mkdtempSync(path.join(os.tmpdir(),'cp-external-image-'));
+ t.after(()=>fs.rmSync(external,{recursive:true,force:true}));
+ const image=path.join(external,'image.png');
+ fs.writeFileSync(image,'External image fixture');
  assert.throws(()=>createOnePager(example,'../escape.svg'),/plain SVG/);
- assert.throws(()=>render({...example,heroImage:'../README.md'}),/inside this CP/);
+ assert.throws(()=>render({...example,heroImage:path.relative(root,image)}),/inside this CP/);
+ assert.throws(()=>render({...example,heroImage:image}),/inside this CP/);
  assert.equal(validateFile('../README.md').ok,false);
 });
 test('files validate by path; mutation and overwrites are rejected',()=>{
