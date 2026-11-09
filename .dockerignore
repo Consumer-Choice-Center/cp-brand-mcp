@@ -7,3 +7,10 @@ assets/fonts
 data/fonts.local.json
 .env*
 *.tgz
+
+runtime-private/
+runtime-config/
+fonts/
+**/*.ttf
+**/*.ttc
+**/*.otf

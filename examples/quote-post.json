@@ -1,0 +1,10 @@
+{
+  "template": "quote_side",
+  "language": "en",
+  "mode": "draft",
+  "quote": "This is sample text for reviewing the layout, not a statement by the person pictured.",
+  "personName": "Example speaker",
+  "personTitle": "Layout sample",
+  "imageAlt": "Describe the portrait supplied with this request.",
+  "imageProvenance": "provided_photo"
+}

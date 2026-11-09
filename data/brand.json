@@ -1,7 +1,7 @@
 {
   "name": "Considerate Pouchers",
   "shortName": "CP",
-  "scope": "one_pager_only",
+  "scope": "one_pagers_social_quotes_cutouts",
   "sources": {
     "brandRules": "assets/references/CP_Brand_Guidelines.pdf",
     "layoutReference": "assets/references/CP_Onepager_V3.pdf",
@@ -29,9 +29,9 @@
     "rule": "Use one of the eight supplied SVGs unchanged, with preserved aspect ratio. No recreated wordmarks, recoloring, stretching, or cropping."
   },
   "photography": [
-    "Field activism",
-    "Retail and products",
-    "Natural-color images featuring branding; no color overlays"
+    "Field activism and real contextual scenes",
+    "Real unbranded pouch photographs and plain containers; no commercial product logos, brand names or branded packaging in social crops",
+    "Preserve natural photo colors; paired greyscale, subtle grain and silhouette outlines are permitted for social posts as specified in social.rules"
   ],
   "onePager": {
     "template": "cp_reference_v3",
@@ -74,6 +74,90 @@
     "calloutImages": {
       "size": "Approximately 15% larger than v0.3: 194 x 113 right-side slots, 236 x 115 left slot.",
       "placement": "Above the respective heading, with preserved aspect ratio and no overlap with text."
+    }
+  },
+  "website": "https://consideratepouchers.org",
+  "languages": [
+    "en",
+    "sv"
+  ],
+  "social": {
+    "width": 1080,
+    "height": 1350,
+    "templates": [
+      "social_orbit",
+      "social_editorial",
+      "quote_side",
+      "quote_overlay",
+      "photo_cutout",
+      "scene_top_strips",
+      "scene_overlay_strips"
+    ],
+    "references": [
+      "assets/references/social/CP_Soc1.svg",
+      "assets/references/social/CP_Soc2.svg",
+      "assets/references/social/CP_Quote1.svg",
+      "assets/references/social/CP_Quote2.svg",
+      "assets/references/social/CP_PhotoScene_TopStrips.jpg",
+      "assets/references/social/CP_PhotoScene_OverlayStrips.jpg"
+    ],
+    "rules": [
+      "Exact CP fonts and official logos; preserve existing one-pager behavior.",
+      "Request-supplied quote photograph, name and role; no default portrait or invented attribution.",
+      "Real contextual photo cutouts only; no generated subject or fixed image library.",
+      "Prioritize real unbranded pouch imagery in social templates: individual pouches, pouch details and plain containers relevant to the topic. No commercial product logos, brand names or branded packaging in the final crop. Vary the source and composition per topic; no fixed photo library. Inspect the final crop visually.",
+      "Pouch appearance follows the supplied Subject 35 and Subject 36 references: a natural rectangular, softly filled fabric sachet with visible sealed end seams and realistic surface texture. Avoid stretched, tapered or cigar-shaped crops. Preserve supplied cutout proportions and alpha; do not synthesize the subject.",
+      "For socials only, user-authorized greyscale, subtle grain, off-white silhouette outline are permitted. Scene and quote posts use no gradients or logo backplates; all social and quote text, including speaker names and roles, appears directly on the artwork without backing boxes or panels. Color variants preserve natural photo colors.",
+      "Body text minimum 44px, CTA minimum 42px, quote minimum 48px, speaker role minimum 44px; reject overflowing copy.",
+      "Oversized background letters may extend beyond the canvas; official logos must remain whole.",
+      "Final outputs require caller verification of copy and attribution; spelling suggestions never change quotes automatically.",
+      "Apply subtle deterministic monochrome grain to social-template backgrounds and scene graphic shapes. Keep text and official logos above the texture and crisp. backgroundGrain defaults to 0.04 for cream editorial posts and 0.065 for other templates, accepts 0\u20130.25, and 0 disables background grain. Existing photograph grain is controlled separately by grainAmount."
+    ],
+    "photoSceneDirection": {
+      "status": "implemented",
+      "source": "Additional user-supplied social references, 2026-11-09",
+      "references": [
+        "assets/references/social/CP_PhotoScene_TopStrips.jpg",
+        "assets/references/social/CP_PhotoScene_OverlayStrips.jpg"
+      ],
+      "intent": "Build the composition around each supplied real photograph, retaining relevant people, setting and activity; adjust the background and graphic elements to CP branding.",
+      "variants": [
+        {
+          "name": "Scene with upper text",
+          "reference": "assets/references/social/CP_PhotoScene_TopStrips.jpg",
+          "composition": "A large foreground scene extends to the frame edges. Replace the sky or selected background with CP teal, place coral angular shapes behind the foreground, and arrange short headline text in the upper negative space."
+        },
+        {
+          "name": "Scene with overlaid text",
+          "reference": "assets/references/social/CP_PhotoScene_OverlayStrips.jpg",
+          "composition": "Retain a dominant full-frame documentary scene. Place teal/coral background shapes behind its subjects, keep the official logo in clear space, and overlay stacked text in a lower area chosen to protect faces and important details."
+        }
+      ],
+      "rules": [
+        "Use the actual image supplied for the post. Retain authentic photographic people, objects and scene details; do not generate replacement subjects or invent documentary events.",
+        "Inspect each source image before choosing crop, foreground/background masks, text location and accent shapes. No fixed assortment of scene photographs or fixed mask.",
+        "Preserve environmental context where it supports the story. A scene collage may retain multiple people, buildings and ground rather than isolating one object.",
+        "Permit background replacement or simplification to exact CP teal, with coral shapes behind retained photo elements. Do not sample screenshot colors; use the authoritative CP palette.",
+        "Offer natural-color and greyscale versions of the same photo composition. Keep CP graphic elements colored; apply only restrained grain. Subject outlines are optional for scene collages, rather than mandatory around every person or building.",
+        "Place CP type directly on the artwork without boxes or panels. Use measured wrapping and inspect contrast against the photograph; move the text or adjust the crop when needed.",
+        "Let photographs and graphic shapes extend beyond the frame where appropriate. Keep faces, essential objects, readable text and the complete official logo visible.",
+        "Adapt text placement to the photograph and wording; use emphasis sparingly. Preserve editable text and prevent clipping.",
+        "Do not reproduce social-platform counters, sound icons, screenshot borders or reference claims. Source copy and factual verification are supplied per post.",
+        "Use original source photographs for new artwork; these finished screenshots are design references, not reusable scene assets.",
+        "Smooth traced photographic contours and lightly feather mask edges only; preserve image detail. Do not add gradient overlays or rectangles behind official CP logos."
+      ],
+      "templates": [
+        "scene_top_strips",
+        "scene_overlay_strips"
+      ],
+      "controls": {
+        "background": "scene.backgroundMode=replace requires cropPolygon or a transparent PNG; keep preserves the original background",
+        "placement": "focalPoint, scene.scale (0.7\u20132), scene.offsetX/offsetY (canvas pixels)",
+        "strips": "headline supports explicit line breaks and automatic wrapping; CTA appends to the text group; scene.textY repositions the group",
+        "accents": "scene.accent=burst, diagonal, or none; default differs by template",
+        "exports": "Color and greyscale pair by default; original image coordinate system and scene context retained; no subject outline",
+        "maskEdges": "maskSmoothing 0\u20131 (default 0.65) and edgeFeather 0\u20132 raster pixels (default 0.65); supplied transparent alpha is preserved."
+      }
     }
   }
 }

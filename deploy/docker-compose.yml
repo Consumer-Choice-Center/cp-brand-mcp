@@ -1,0 +1,60 @@
+name: cp-brand-mcp
+services:
+  cp-brand-mcp:
+    image: ${CP_BRAND_MCP_IMAGE:-cp-brand-mcp:local}
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: cp-brand-mcp
+    command: ["node", "src/http-server.mjs"]
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 128
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    expose: ["8083"]
+    environment:
+      CP_BRAND_FONT_CONFIG: /config/fonts.json
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8083
+      CP_MCP_ALLOWED_HOSTS: ${CP_MCP_PUBLIC_HOST:-cp-mcp.consumerchoicecenter.org},cp-brand-mcp,localhost,127.0.0.1
+      CP_MCP_TRUST_PROXY_HOPS: 1
+      CP_MCP_HTTP_BODY_LIMIT: 1mb
+      CP_MCP_RATE_LIMIT_MAX: 120
+      CP_MCP_MAX_CONCURRENCY: 8
+      CP_MCP_REQUEST_TIMEOUT_MS: 30000
+      CP_MCP_HEADERS_TIMEOUT_MS: 15000
+      CP_MCP_KEEP_ALIVE_TIMEOUT_MS: 5000
+    volumes:
+      - type: bind
+        source: ${CP_FONT_DIRECTORY:-../runtime-private/fonts}
+        target: /fonts
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${CP_FONT_CONFIG_DIRECTORY:-../runtime-private/config}
+        target: /config
+        read_only: true
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: [CMD, node, -e, "require('http').get('http://127.0.0.1:8083/healthz',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    networks: [archivebox_default]
+networks:
+  archivebox_default:
+    external: true

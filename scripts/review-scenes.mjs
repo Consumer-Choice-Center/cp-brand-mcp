@@ -1,0 +1,27 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {Client} from '@modelcontextprotocol/sdk/client/index.js';
+import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';
+import {Resvg} from '@resvg/resvg-js';
+import {root} from '../src/brand.mjs';
+const out=path.join(root,'deliverables',`scene-review-${Date.now()}`);fs.mkdirSync(out,{recursive:true});
+const client=new Client({name:'cp-scene-review',version:'1.0.0'});
+await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'src/server.mjs')],env:{...process.env,CP_BRAND_OUTPUT_DIR:out}}));
+const call=async(name,args={})=>{const r=await client.callTool({name,arguments:args});const v=JSON.parse(r.content[0].text);if(r.isError)throw Error(JSON.stringify(v));return v;};
+const photo={imageFile:'inputs/review-cp-berlin-scene.jpg',imageAlt:'CP campaign participants holding a banner in Berlin; sample copy for layout review.',imageProvenance:'sourced_photo',imageSourceUrl:'https://www.politik-kommunikation.de/nikotin-pouches-warum-deutschland-endlich-klare-regeln-braucht/',imageCredit:'Considerate Pouchers campaign photograph, published in politik&kommunikation',imageLicense:'Local design-review use only; publication rights must be confirmed before final output.',visualRelevanceConfirmed:true,grainAmount:.04,
+ cropPolygon:[[0,.55],[.03,.55],[.05,.5],[.065,.46],[.07,.41],[.08,.38],[.105,.365],[.12,.38],[.13,.43],[.15,.4],[.17,.35],[0.346875,0.35545],[0.348125,0.342417],[0.35375,0.334123],[0.35875,0.329384],[0.36125,0.319905],[0.36375,0.311611],[0.36125,0.305687],[0.36375,0.291469],[0.3675,0.279621],[0.37375,0.251185],[0.38,0.234597],[0.384375,0.226303],[0.3925,0.218009],[0.4,0.209716],[0.40375,0.201422],[0.4075,0.197867],[0.40375,0.18128],[0.401875,0.171801],[0.40125,0.159953],[0.4025,0.154028],[0.4025,0.13981],[0.405,0.129147],[0.4075,0.119668],[0.414375,0.111374],[0.42125,0.109005],[0.42625,0.112559],[0.431875,0.113744],[0.43625,0.120853],[0.439375,0.131517],[0.439375,0.154028],[0.440625,0.158768],[0.44,0.169431],[0.4375,0.177725],[0.43625,0.191943],[0.44375,0.195498],[0.45,0.201422],[0.4525,0.2109],[0.45875,0.214455],[0.465,0.228673],[0.47,0.242891],[0.47375,0.258294],[0.476875,0.277251],[0.47875,0.296209],[0.48125,0.308057],[0.485,0.312796],[0.486875,0.32346],[0.48875,0.332938],[0.49375,0.342417],[0.5625,0.343602],[0.57,0.334123],[0.5725,0.325829],[0.5725,0.317536],[0.575,0.305687],[0.57625,0.291469],[0.58125,0.274882],[0.586875,0.258294],[0.594375,0.242891],[0.6,0.234597],[0.606875,0.226303],[0.61,0.21564],[0.610625,0.203791],[0.61,0.190758],[0.60875,0.175355],[0.608125,0.159953],[0.609375,0.149289],[0.614375,0.136256],[0.62125,0.126777],[0.628125,0.120853],[0.635,0.120853],[0.64125,0.127962],[0.645,0.137441],[0.646875,0.151659],[0.648125,0.168246],[0.648125,0.180095],[0.65,0.194313],[0.653125,0.207346],[0.659375,0.218009],[0.665,0.229858],[0.66875,0.242891],[0.673125,0.258294],[0.67625,0.278436],[0.679375,0.298578],[0.683125,0.317536],[0.68375,0.335308],[.788,.35],[.802,.38],[.82,.36],[.83,.34],[.85,.345],[.86,.38],[.862,.414],[.88,.44],[.896,.51],[.92,.6],[1,.7],[1,1],[0,1]],scene:{backgroundMode:'replace',scale:.9,offsetX:0,offsetY:310}};
+try {
+ await call('get_brand_guidelines');const status=await call('get_mcp_status');const ts=await call('list_social_templates');if(ts.templates.length!==7)throw Error('Scene templates missing from discovery.');
+ const artifacts=[];
+ for(const [name,template,language,headline] of [
+  ['06-scene-top','scene_top_strips','en','Pouch users.\nReal experiences.'],
+  ['07-scene-overlay','scene_overlay_strips','sv','Egna erfarenheter.\nRöster som räknas.']]) {
+  const r=await call('create_photo_scene_post',{content:{...photo,scene:{...photo.scene,...(template==='scene_overlay_strips'?{scale:.7,offsetY:-180,textY:1000}:{offsetY:310})},template,language,headline},outputFileName:name});
+  for(const a of r.artifacts){const validation=await call('validate_social_post',{filePath:a.filePath});if(!validation.ok)throw Error(JSON.stringify(validation));artifacts.push({...a,name});}
+ }
+ const cards=artifacts.map(a=>`<article><h2>${a.name} · ${a.treatment}</h2><img src="${path.basename(a.pngPath)}"><p><a href="${path.basename(a.filePath)}">Editable SVG</a> · <a href="${path.basename(a.contentPath)}">Source JSON</a></p></article>`).join('');
+ fs.writeFileSync(path.join(out,'index.html'),`<!doctype html><html lang="en"><meta charset="utf-8"><title>CP scene templates</title><style>body{font:18px system-ui;color:#1d6379;background:#efede0;margin:28px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}img{width:100%}h2{font-size:18px}a{color:inherit}</style><h1>CP · Photo scene templates</h1><p>Local draft previews. Each pair uses the same real CP campaign photo and mask. Copy is a layout sample. <a href="${photo.imageSourceUrl}">Photo source and credit</a>. Publication rights require confirmation.</p><main>${cards}</main></html>`);
+ const tiles=artifacts.map((a,i)=>`<image x="${i*360}" y="0" width="360" height="450" href="data:image/png;base64,${fs.readFileSync(a.pngPath).toString('base64')}"/>`).join('');
+ fs.writeFileSync(path.join(out,'contact-sheet.png'),new Resvg(`<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="450">${tiles}</svg>`).render().asPng());
+ fs.writeFileSync(path.join(out,'review-results.json'),JSON.stringify({status,artifacts},null,2));console.log(JSON.stringify({out,version:status.version,count:artifacts.length}));
+}finally{await client.close();}

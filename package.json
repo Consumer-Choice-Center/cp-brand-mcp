@@ -1,9 +1,9 @@
 {
   "name": "cp-brand-mcp",
-  "version": "0.4.1",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
-  "description": "Considerate Pouchers one-pager MCP: contextual visuals, CP branding and strict local validation.",
+  "description": "Considerate Pouchers MCP: one-pagers, social posts, request-supplied portrait quotes and real-photo cutouts in English and Swedish.",
   "engines": {
     "node": ">=22 <26"
   },
@@ -12,17 +12,28 @@
     "test": "node --test tests/*.test.mjs",
     "smoke": "node scripts/smoke-test.mjs",
     "audit:assets": "node scripts/audit-assets.mjs",
-    "check": "node --check src/server.mjs && node --check src/brand.mjs",
+    "check": "node --check src/server.mjs && node --check src/brand.mjs && node --check src/social.mjs && node --check src/cutout.mjs && node --check src/scene.mjs && node --check src/mask.mjs && node --check src/grain.mjs && node --check src/visual-qa.mjs && node --check src/mcp-factory.mjs && node --check src/http-server.mjs",
     "test:portable": "node --test tests/portable.test.mjs",
-    "audit:prod": "pnpm audit --prod"
+    "audit:prod": "pnpm audit --prod",
+    "start:http": "node src/http-server.mjs",
+    "smoke:http": "node scripts/smoke-http.mjs",
+    "test:http": "node --test tests/http.test.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.30.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@resvg/resvg-js": "2.6.2",
     "@xmldom/xmldom": "0.9.12",
+    "dictionary-en": "4.0.0",
+    "dictionary-en-gb": "3.0.0",
+    "dictionary-sv": "4.0.0",
     "fontkit": "2.0.4",
-    "zod": "3.25.76"
+    "nspell": "2.1.5",
+    "zod": "4.6.6",
+    "express": "5.3.0",
+    "express-rate-limit": "8.7.3",
+    "helmet": "8.1.0"
   },
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.25.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Consumer-Choice-Center/cp-brand-mcp.git"
@@ -44,6 +55,10 @@
     "scripts/audit-assets.mjs",
     "README.md",
     "DEPLOYMENT.md",
-    "LICENSE"
+    "LICENSE",
+    "pnpm-workspace.yaml",
+    "deploy",
+    "scripts/smoke-http.mjs",
+    "scripts/prepare-private-fonts.py"
   ]
 }
