@@ -1,11 +1,11 @@
-# Deploy CP Brand MCP 0.9
+# Deploy CP Brand MCP 0.10
 
 CP supports two transports:
 
 - `pnpm start`: full local/SSH stdio, **18 tools**, including rendering and file validation.
-- `pnpm run start:http`: stateless public read-only HTTP, **7 tools**, at `/mcp`; health at `/healthz`.
+- `pnpm run start:http`: public HTTP with quote rendering, **8 tools**, at `/mcp`; health at `/healthz`.
 
-Public HTTP follows CCC and WVA's model. It does not expose filesystem paths, uploads, rendering or downloads. See [deploy/README.md](deploy/README.md) for the separate CP service on the CCC server, Caddy, DNS and rollback. The repository supplies deployment configuration; GitHub Actions does not deploy the live server.
+Public HTTP follows CCC and WVA's model. It renders quotes with supplied portraits and provides temporary downloads, while excluding arbitrary filesystem paths and general-purpose uploads. See [HTTP quote workflow](docs/http-quotes.md). See [deploy/README.md](deploy/README.md) for the separate CP service on the CCC server, Caddy, DNS and rollback. The repository supplies deployment configuration; GitHub Actions does not deploy the live server.
 
 ## Local installation
 

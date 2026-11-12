@@ -12,9 +12,9 @@ The CP hostname and Caddy fragment are deployment configuration, not a claim of 
 
 ## Transports
 
-Public HTTP is stateless and read-only, matching CCC/WVA: **7 tools and 3 resources** for guidelines, status, asset audit, templates, spelling and generation/photo briefs. It exposes no upload, render, server-file-path, download or filesystem-write tools. Public status redacts runtime and font paths. HTTP has host validation, rate/body/concurrency limits, security headers and bounded timeouts.
+HTTP exposes **8 tools and 3 resources**, including quote rendering with inline previews and temporary PNG/SVG downloads. CP portraits are supplied by public HTTPS URL or PNG/JPEG data URI; no arbitrary server paths are exposed. Other rendering remains in stdio. See [HTTP quotes](../docs/http-quotes.md).
 
-Local or operator-controlled SSH stdio exposes **all 18 tools**, including one-pagers, social posts, quotes, photo cutouts and validation. It uses bundled open fonts and operator-controlled input/output directories. A public hosted rendering/upload service is not included.
+Local or operator-controlled SSH stdio exposes **all 18 tools**, including one-pagers, social posts, quotes, photo cutouts and validation. It uses bundled open fonts and operator-controlled input/output directories. General-purpose hosted rendering and uploads are not included; quote portraits and quote outputs are supported.
 
 ## Bundled fonts and preserved artwork
 
@@ -73,3 +73,7 @@ CP_BRAND_MCP_IMAGE=cp-brand-mcp:previous docker compose -f deploy/docker-compose
 ```
 
 The image runs as non-root. Compose uses a read-only root filesystem, bundled open fonts, resource limits and rotating logs. Caddy is the single trusted proxy hop; keep port 8083 unexposed on the host while that trust is enabled.
+
+## HTTP quote downloads
+
+The Compose configuration sets `CP_MCP_PUBLIC_BASE_URL` to the HTTPS origin. Caddy must proxy the entire host, including `/artifacts/`; the supplied fragment already does. Quote renders use one isolated worker at a time and a 64 MiB in-memory artifact store. Links expire after one hour and disappear on restart; no output volume is needed. The service uses a 768 MiB memory limit for rendering. After deploying, refresh the Claude connector to rediscover `create_quote_post`, then run the HTTP smoke script.

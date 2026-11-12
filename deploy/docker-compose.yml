@@ -11,19 +11,20 @@ services:
     read_only: true
     tmpfs:
       - /tmp:size=32m,mode=1777
-    mem_limit: 512m
+    mem_limit: 768m
     cpus: 1.0
     pids_limit: 128
     cap_drop: [ALL]
     security_opt: ["no-new-privileges:true"]
     expose: ["8083"]
     environment:
+      CP_MCP_PUBLIC_BASE_URL: https://${CP_MCP_PUBLIC_HOST:-cp-mcp.consumerchoicecenter.org}
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 8083
       CP_MCP_ALLOWED_HOSTS: ${CP_MCP_PUBLIC_HOST:-cp-mcp.consumerchoicecenter.org},cp-brand-mcp,localhost,127.0.0.1
       CP_MCP_TRUST_PROXY_HOPS: 1
-      CP_MCP_HTTP_BODY_LIMIT: 1mb
+      CP_MCP_HTTP_BODY_LIMIT: 8mb
       CP_MCP_RATE_LIMIT_MAX: 120
       CP_MCP_MAX_CONCURRENCY: 8
       CP_MCP_REQUEST_TIMEOUT_MS: 30000

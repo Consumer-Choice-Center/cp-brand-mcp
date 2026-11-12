@@ -22,12 +22,12 @@ test('loopback HTTP health, protocol and restricted tool discovery',async()=>{
     await client.connect(new StreamableHTTPClientTransport(new URL(base+'/mcp')));
     const tools=(await client.listTools()).tools;
     assert.ok(tools.some(t=>t.name==='review_spelling'));
-    assert.ok(!tools.some(t=>/create_social|create_quote|validate_svg_file|qa_social/.test(t.name)));
-    assert.equal(tools.length,7);
-    for(const tool of tools){assert.ok(tool.annotations.readOnlyHint);assert.doesNotMatch(JSON.stringify(tool.inputSchema),/imageFile|filePath|heroImage/);}
+    assert.ok(!tools.some(t=>/create_social|validate_svg_file|qa_social/.test(t.name)));
+    assert.equal(tools.length,8);
+    for(const tool of tools){assert.equal(tool.annotations.readOnlyHint,tool.name!=='create_quote_post');assert.doesNotMatch(JSON.stringify(tool.inputSchema),/imageFile|filePath|heroImage/);}
     const decode=r=>JSON.parse(r.content[0].text);
     const status=decode(await client.callTool({name:'get_mcp_status',arguments:{}}));
-    assert.equal(status.server,'cp-brand-mcp');assert.equal(status.transport,'read-only-http');
+    assert.equal(status.server,'cp-brand-mcp');assert.equal(status.transport,'http');
     assert.equal(status.workspacePath,undefined);assert.equal(status.outputPath,undefined);
     assert.doesNotMatch(JSON.stringify(status),/\/Users\/|\/app\/|\/config\//);
     const brief=await client.callTool({name:'create_generation_prompt',arguments:{request:'A social post about clear information'}});
