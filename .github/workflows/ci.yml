@@ -37,12 +37,13 @@ jobs:
           grep '"serverInfo"' /tmp/mcp-result
       - name: Check HTTP container health
         run: |
-          docker run -d --name cp-http -p 127.0.0.1:8083:8083 cp-brand-mcp:test
+          docker run -d --name cp-http --read-only --tmpfs /tmp:size=32m --memory 768m -p 127.0.0.1:8083:8083 cp-brand-mcp:test
           for attempt in $(seq 1 20); do
             if curl --fail --silent http://127.0.0.1:8083/healthz > /tmp/cp-health.json; then break; fi
             sleep 1
           done
           python3 -c 'import json; assert json.load(open("/tmp/cp-health.json"))["server"] == "cp-brand-mcp"'
+          docker exec cp-http node scripts/smoke-http.mjs http://127.0.0.1:8083/mcp
       - name: Stop test container
         if: always()
         run: docker rm -f cp-http || true

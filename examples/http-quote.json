@@ -1,0 +1,12 @@
+{
+  "quote": "This is sample wording for reviewing a layout.",
+  "mode": "draft",
+  "template": "quote_side",
+  "language": "en",
+  "personName": "Example speaker",
+  "personTitle": "Example role",
+  "portraitUrl": "https://your-public-site.example/portrait.png",
+  "imageAlt": "Portrait supplied for this quotation",
+  "imageProvenance": "provided_photo",
+  "visualRelevanceConfirmed": true
+}

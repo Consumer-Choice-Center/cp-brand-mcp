@@ -87,7 +87,7 @@ Replace the paths for your machine. Register CP separately from CCC and WVA. Res
 
 ## Remote HTTP mode
 
-Start the stateless, read-only Streamable HTTP service:
+Start the Streamable HTTP service with quote rendering:
 
 ```sh
 pnpm run start:http
@@ -101,19 +101,21 @@ Proposed hosted connector URL, pending live deployment:
 https://cp-mcp.consumerchoicecenter.org/mcp
 ```
 
-HTTP exposes **7 read-only tools and 3 resources**: status, guidelines, asset audit, generation briefs, template discovery, spelling review and photo sourcing briefs. The **18-tool stdio server** provides full rendering and local file validation. Public HTTP has no upload, rendering, download or arbitrary server-path tools.
+HTTP exposes **8 tools and 3 resources**: status, guidelines, asset audit, generation briefs, template discovery, spelling review and photo sourcing briefs, plus `create_quote_post`. The **18-tool stdio server** provides full rendering and local file validation. HTTP quote rendering accepts a supplied portrait URL or image data and returns a preview plus download links. General social/one-pager generation stays local; arbitrary server paths are never accepted.
 
 Optional HTTP controls:
 
 - `HOST` and `PORT` — default `127.0.0.1:8083`
 - `CP_MCP_ALLOWED_HOSTS` — Host header allowlist
-- `CP_MCP_HTTP_BODY_LIMIT` — default `1mb`
+- `CP_MCP_HTTP_BODY_LIMIT` — default `8mb`
 - `CP_MCP_RATE_LIMIT_MAX` — default 120 requests per IP per minute
 - `CP_MCP_MAX_CONCURRENCY` — default 8 simultaneous requests
 - `CP_MCP_REQUEST_TIMEOUT_MS`, `CP_MCP_HEADERS_TIMEOUT_MS`, `CP_MCP_KEEP_ALIVE_TIMEOUT_MS`
 - `CP_MCP_TRUST_PROXY_HOPS=1` — only behind the trusted Caddy proxy, with no published host port
 
-Public status omits local runtime and font paths. The bundled open-source fonts and fixed vector logos support rendering without private commercial fonts. The public service is unauthenticated; keep filesystem and rendering tools in the operator-controlled stdio transport.
+Public status omits local runtime and font paths. The bundled open-source fonts and fixed vector logos support rendering without private commercial fonts. The public service is unauthenticated. HTTP quotes render in isolated workers without writing server files; arbitrary filesystem tools remain in operator-controlled stdio.
+
+Set `CP_MCP_PUBLIC_BASE_URL` to the public HTTPS origin so download links use the correct domain behind Caddy. [HTTP quote workflow](docs/http-quotes.md) covers examples, delivery and limits.
 
 ## Server Deployment
 
@@ -155,11 +157,11 @@ The [deployment guide](DEPLOYMENT.md) covers migration and container configurati
 
 ## Tools
 
-All tools below are available through stdio. Only the seven tools listed in Remote HTTP mode are exposed publicly.
+All tools below are available through stdio. Only the eight tools listed in Remote HTTP mode are exposed publicly.
 
 ### `get_mcp_status`
 
-Returns the running server identity, version, transport, supported scope and asset health. Local stdio also reports workspace and output paths. Expected version: **0.9.0**.
+Returns the running server identity, version, transport, supported scope and asset health. Local stdio also reports workspace and output paths. Expected version: **0.10.0**.
 
 ### `get_brand_guidelines`
 
@@ -225,7 +227,7 @@ Checks exact font fit and independent rendered readability before export. Pass `
 
 ### `create_social_post`
 
-Creates editable SVG, outlined SVG, PNG and source JSON. All social creation tools take `{content, outputFileName}`; the optional output name is a stem without an extension.
+Creates editable SVG, outlined SVG, PNG and source JSON. Local social creation tools take `{content, outputFileName}`; the optional output name is a stem without an extension.
 
 ```json
 {
@@ -244,6 +246,8 @@ Creates editable SVG, outlined SVG, PNG and source JSON. All social creation too
 Read guidelines, select a template, prepare copy and photographs, run layout QA, create, then validate each editable SVG and inspect its PNG. Draft status is recorded in the JSON and tool result rather than stamped on social artwork. Final social output requires source entries and `factsVerified: true`.
 
 ### `create_quote_post`
+
+HTTP accepts flat quote fields, `portraitUrl` or `portraitData`, and returns PNG/SVG download links. See [HTTP quote workflow](docs/http-quotes.md). Local stdio uses the existing `{content, outputFileName}` shape below.
 
 Uses `quote_side` or `quote_overlay` with a portrait supplied for the request. Provide `quote`, `personName`, `personTitle`, `imageFile`, `imageAlt`, `imageProvenance` and confirmed visual relevance. There is no default speaker identity or portrait. See [quote content example](examples/quote-post.json).
 

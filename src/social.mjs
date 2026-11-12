@@ -63,12 +63,16 @@ function ensureContent(c) {
   if(isQuote(c)&&!c.quoteVerified)throw Error('Final quote requires quoteVerified and permission to attribute this exact wording.');
  }
 }
-function imageFrom(c) {
+function imageFrom(c,suppliedData) {
+ let data=suppliedData;
+ if(!data) {
  const file=path.resolve(root,c.imageFile),inputs=path.join(root,'inputs');
  const real=fs.realpathSync(file);
  if(!real.startsWith(fs.realpathSync(inputs)+path.sep))throw Error('Photographs must be copied inside this CP inputs directory.');
  if(fs.statSync(real).size>35*1024*1024)throw Error('Photograph exceeds 35MB.');
- const data=fs.readFileSync(real),[width,height]=dimensions(data);
+ data=fs.readFileSync(real);
+ }
+ const [width,height]=dimensions(data);
  if(!width||!height||width>12000||height>12000||width*height>40_000_000)throw Error('Photograph exceeds safe dimensions.');
  if(!c.imageAlt||!c.imageProvenance)throw Error('Supply imageAlt and real-photo imageProvenance.');
  if(c.imageProvenance==='sourced_photo'&&(!c.imageSourceUrl||!c.imageCredit||!c.imageLicense))throw Error('Sourced photograph requires source URL, credit and reuse license.');
@@ -169,12 +173,12 @@ function sceneArtwork(c,img,reports) {
  const mark=logo(true,{x:70,y:51,w:310,h:75});
  return background+backgroundGrain(c.backgroundGrain)+photo+mark+sceneStrips(c,reports);
 }
-export function renderSocial(input,treatment='color') {
+export function renderSocial(input,treatment='color',suppliedData) {
  const c=socialSchema.parse(input);ensureContent(c);
  const audit=auditAssets();if(!audit.ok)throw Error(audit.violations.join('; '));
  const need=templates.find(t=>t.id===c.template).imageRequired;
- if(need&&!c.imageFile)throw Error('This template needs a request-supplied or sourced real photograph.');
- const original=need?imageFrom(c):null;
+ if(need&&!c.imageFile&&!suppliedData)throw Error('This template needs a request-supplied or sourced real photograph.');
+ const original=need?imageFrom(c,suppliedData):null;
  const img=isScene(c)?prepareScene(original,treatment,c):isCutout(c)?prepareCutout(original,treatment,c):original;
  const reports=[],warnings=[],dark=c.template!=='social_editorial',bg=dark?teal:cream,fg=dark?offWhite:teal;
  const block=(id,text,box)=>textBlock(id,text,box,reports);
