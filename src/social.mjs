@@ -110,7 +110,8 @@ function textBlock(id,text,{x,y,w,h,role='body',size=54,min=44,color=offWhite,al
   const measurements=lines.map(line=>metrics(line,role,s));
   const ascent=Math.max(...measurements.map(m=>m.top)),descent=Math.min(...measurements.map(m=>m.bottom));
   const height=ascent-descent+(lines.length-1)*s*leading;
-  if(height>h)continue;
+  // Scene slots reuse these metrics; allow only floating-point roundoff.
+  if(height-h>1e-6)continue;
 
   const boxes=[];
   const markup=lines.map((line,i)=>{
@@ -131,8 +132,7 @@ function textBlock(id,text,{x,y,w,h,role='body',size=54,min=44,color=offWhite,al
 function logo(dark,position={x:390,y:1222,w:300,h:75}) {
  // Embed an isolated, outlined copy of an unmodified official logo, avoiding CSS collisions.
  const name=dark?'CP_Logo_Wide_White_Reference.svg':'CP_Logo_Wide_2.svg';
- const source=fs.readFileSync(path.join(root,'assets/logos',name),'utf8');
- const outlined=outlineSvg(source);
+ const outlined=fs.readFileSync(path.join(root,'assets/logos/outlined',name),'utf8');
  return `<image data-cp-logo="${name}" x="${position.x}" y="${position.y}" width="${position.w}" height="${position.h}" preserveAspectRatio="xMidYMid meet" href="data:image/svg+xml;base64,${Buffer.from(outlined).toString('base64')}"/>`;
 }
 function letters(dark) {return `<g id="background-letters" opacity="${dark?.055:.035}" fill="${dark?offWhite:teal}"><text x="-145" y="380" font-family="${brand.typography.headline}" font-size="500" fill="${dark?offWhite:teal}">POU</text><text x="-150" y="970" font-family="${brand.typography.headline}" font-size="450" fill="${dark?offWhite:teal}">CHES</text></g>`;}
@@ -199,7 +199,7 @@ export function renderSocial(input,treatment='color') {
   parts.push(photoMarkup(img,(1080-photoW)/2,photoTop,photoW,photoH));
   for(let i=0;i<4;i++) {
    const x=i%2?570:65,y=i<2?320:950;
-   parts.push(block(`callout-${i}`,c.callouts[i],{x,y,w:445,h:155,role:'subhead',size:52,min:44,align:'center'}));
+   parts.push(block(`callout-${i}`,c.callouts[i],{x,y,w:445,h:160,role:'subhead',size:52,min:44,align:'center'}));
    const glyphs=reports.at(-1).glyphBounds;
    const endX=x+445/2,endY=i<2?Math.max(...glyphs.map(b=>b.y+b.h))+24:Math.min(...glyphs.map(b=>b.y))-24;
    const startX=540+(i%2?1:-1)*photoW*.32,startY=i<2?photoTop-18:photoBottom+18;

@@ -87,6 +87,94 @@
       "path": "assets/references/social/CP_PhotoScene_OverlayStrips.jpg",
       "sha256": "4b5975a3bf79828d435618f475fb571c939a0e9f680f1501ab241c3ebb7ae320",
       "source": "User-supplied social composition reference. Screenshot artwork and copy are not runtime defaults."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_1.svg",
+      "sha256": "f87e1bd9762465589681f7e882d2cecd540929f62c9bb530f5247f3d73d37bb6",
+      "source": "assets/logos/CP_Logo_1.svg",
+      "sourceSha256": "2c7b4b11f9490f3350b1a8f6a74f907be632ea93fc0eb3c67cc325eec4bfe932",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_2.svg",
+      "sha256": "3bfecbf6ee54cc2a94834a3ba01e55a41b25925cf574c97e90172f209510bac5",
+      "source": "assets/logos/CP_Logo_2.svg",
+      "sourceSha256": "1f5fdf6a9f133f6e8dafb2980aca9f0ca619510db07d291b3d2d6bf894d48ca6",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_3.svg",
+      "sha256": "4a4f9906feb8f0d5412b459acd0761abee530512b8144bb92c69b786cd8ae807",
+      "source": "assets/logos/CP_Logo_3.svg",
+      "sourceSha256": "a47dc4c55f71e39506a072b26a5810cbc3704aab577f914d9b517e8c89b9046f",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_4.svg",
+      "sha256": "e3b28fafe2190ace9042ac00d020f13b145321e1b377c69fa19dbfb19514b433",
+      "source": "assets/logos/CP_Logo_4.svg",
+      "sourceSha256": "2262f3b56eda21fc0b3a4b0a743b6b02a910fac34a7e76ed14ace16b3d35cc4b",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_5.svg",
+      "sha256": "d5e75595830847c1eb48388f0448006b5dac8e9525f9b1ef9205807b481891d4",
+      "source": "assets/logos/CP_Logo_5.svg",
+      "sourceSha256": "b23e7b9dddfdf0ab6f4181ec09d798521c730f6d1e75914f53d7df38cd78c5bc",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_6.svg",
+      "sha256": "a2a15a53d646a6e1c6fea4c217613167b5474d385a8f3bcb507d4907cd73617f",
+      "source": "assets/logos/CP_Logo_6.svg",
+      "sourceSha256": "9ef5c9307c41c3ac20737e975f01121df2d288d7da5ec65eda996cf07d850179",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_Wide_1.svg",
+      "sha256": "15cedced8efc16e9b4caa3a87cf33268d8a56b24c5141aa4ef4a41a58500ebdb",
+      "source": "assets/logos/CP_Logo_Wide_1.svg",
+      "sourceSha256": "c2192f6dab6991fa397b904f96947906d2fd2304277f7051be8caff33fac0534",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_Wide_2.svg",
+      "sha256": "eb2703b1153f34464e99c4f8e48670b5329d28b0b4f72239d8eb290b921f1bbd",
+      "source": "assets/logos/CP_Logo_Wide_2.svg",
+      "sourceSha256": "df72ee8c0c02c64d6b6a92e2e5ecc57fdc3648ac2ef841e3a38863a5a63a24c4",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/logos/outlined/CP_Logo_Wide_White_Reference.svg",
+      "sha256": "ba5a8fe0a874420e6d46109a4bbd66c4a19debe7b6d7bb7e96a6b014e00434d3",
+      "source": "assets/logos/CP_Logo_Wide_White_Reference.svg",
+      "sourceSha256": "ef7edb0860870ab20765530f52a0740090fa39d8175c8eddfa7c451404c6b536",
+      "note": "Fixed original-font outlines; no runtime Futura/Proxima Nova dependency. Original SVG retained unchanged."
+    },
+    {
+      "path": "assets/fonts/Jost-Medium.ttf",
+      "sha256": "4f96c348370bb0b49534ed3da233ffc2f5a47dcc8ec642f175cc9b009d859926",
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "path": "assets/fonts/Jost-OFL.txt",
+      "sha256": "3cc70947dfb71a1afa639b26efa7939e792c9dbf32652332aab57c356697f77b",
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "path": "assets/fonts/Montserrat-OFL.txt",
+      "sha256": "861d64229728cd65a98d119612c12769582574d1a092f0b63c8b0fd474e7065f",
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "path": "assets/fonts/Montserrat-Regular.ttf",
+      "sha256": "3e8abe50c44c82e2242e97d1ec8c0d385c4890cdc50447bcdb8605c81a38cfb2",
+      "license": "SIL Open Font License 1.1"
+    },
+    {
+      "path": "assets/fonts/Montserrat-SemiBold.ttf",
+      "sha256": "b4e1563393d73fdff491a869441245aef31add2ec03d9c97a6dae4de07c52fd0",
+      "license": "SIL Open Font License 1.1"
     }
   ]
 }

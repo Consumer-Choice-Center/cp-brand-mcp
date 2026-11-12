@@ -1,6 +1,6 @@
 {
   "name": "cp-brand-mcp",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "type": "module",
   "description": "Considerate Pouchers MCP: one-pagers, social posts, request-supplied portrait quotes and real-photo cutouts in English and Swedish.",
@@ -59,6 +59,6 @@
     "pnpm-workspace.yaml",
     "deploy",
     "scripts/smoke-http.mjs",
-    "scripts/prepare-private-fonts.py"
+    "assets/fonts"
   ]
 }

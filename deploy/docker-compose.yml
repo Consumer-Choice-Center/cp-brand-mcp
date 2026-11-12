@@ -18,7 +18,6 @@ services:
     security_opt: ["no-new-privileges:true"]
     expose: ["8083"]
     environment:
-      CP_BRAND_FONT_CONFIG: /config/fonts.json
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 8083
@@ -30,19 +29,6 @@ services:
       CP_MCP_REQUEST_TIMEOUT_MS: 30000
       CP_MCP_HEADERS_TIMEOUT_MS: 15000
       CP_MCP_KEEP_ALIVE_TIMEOUT_MS: 5000
-    volumes:
-      - type: bind
-        source: ${CP_FONT_DIRECTORY:-../runtime-private/fonts}
-        target: /fonts
-        read_only: true
-        bind:
-          create_host_path: false
-      - type: bind
-        source: ${CP_FONT_CONFIG_DIRECTORY:-../runtime-private/config}
-        target: /config
-        read_only: true
-        bind:
-          create_host_path: false
     healthcheck:
       test: [CMD, node, -e, "require('http').get('http://127.0.0.1:8083/healthz',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
       interval: 30s

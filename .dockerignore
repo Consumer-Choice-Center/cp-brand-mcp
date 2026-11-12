@@ -3,14 +3,17 @@ node_modules
 deliverables
 inputs
 tmp
-assets/fonts
 data/fonts.local.json
 .env*
 *.tgz
 
 runtime-private/
 runtime-config/
-fonts/
+/fonts/
 **/*.ttf
 **/*.ttc
 **/*.otf
+
+!assets/fonts/Jost-Medium.ttf
+!assets/fonts/Montserrat-Regular.ttf
+!assets/fonts/Montserrat-SemiBold.ttf

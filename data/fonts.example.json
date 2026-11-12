@@ -1,14 +1,14 @@
 {
   "headline": {
-    "path": "../assets/fonts/Futura.ttc",
-    "postscriptName": "Futura-Medium"
+    "path": "../assets/fonts/Jost-Medium.ttf",
+    "postscriptName": "Jost-Medium"
   },
   "subhead": {
-    "path": "../assets/fonts/ProximaNova-Semibold.otf",
-    "postscriptName": "ProximaNova-Semibold"
+    "path": "../assets/fonts/Montserrat-SemiBold.ttf",
+    "postscriptName": "Montserrat-SemiBold"
   },
   "body": {
-    "path": "../assets/fonts/ProximaNova-Regular.otf",
-    "postscriptName": "ProximaNova-Regular"
+    "path": "../assets/fonts/Montserrat-Regular.ttf",
+    "postscriptName": "Montserrat-Regular"
   }
 }

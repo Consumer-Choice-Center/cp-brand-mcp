@@ -1,14 +1,12 @@
-# CP Brand MCP 0.8.0
+# CP Brand MCP 0.9.0
 
-Adds seven Considerate Pouchers social/quote templates alongside the existing one-pager tools, plus HTTP configuration for hosting CP beside CCC and WVA.
+Newly generated text now uses the owner-approved open-source fallbacks: Jost Medium for headlines and Montserrat Regular/SemiBold for body text and subheads. Supplied finished artwork retains its original Futura/Proxima Nova appearance.
 
-- 18 local stdio tools; English and Swedish; editable SVG, outlined SVG, PNG and source JSON.
-- Real unbranded pouch imagery, smooth outward arrows, subtle grain and paired color/greyscale treatments.
-- Bounded speaker portrait placement, larger attribution text, and no logo/text backing boxes or quote/scene gradients.
-- Independent rendered contrast, visibility, overlap and text-bound checks; final exports reject failed visual QA.
-- Stateless read-only HTTP with seven tools and three resources, host validation, body/rate/concurrency limits and security headers.
-- Separate CP Compose/Caddy configuration on port 8083 and the existing shared Docker network.
-- Private font mounts and encrypted GitHub Actions font-secret provisioning; no licensed font binaries in the repository, package or image.
-- Regression, portability, protocol and container checks.
+- Bundle three static TTFs, OFL notices and source links; no Adobe activation or commercial font files are needed at runtime.
+- Preserve original logo files and references. Render fixed vector logo copies, retaining original Futura lettering without font substitution.
+- Use bundled fonts by default, ignoring legacy automatic fonts.local.json loading. Explicit overrides must identify the approved open faces.
+- Apply the same generation faces to layout measurement, editable SVG, outlines, PNG export and visual QA.
+- Include open fonts in packages and containers. Remove private font mounts and secret-based CI provisioning.
+- Document font policy, migration steps and download links. Restart clients after upgrading; remove old CP_BRAND_FONT_CONFIG overrides.
 
-HTTP provides read-only brand guidance, discovery and briefs. Full rendering remains available through local or authorized SSH stdio. Live server deployment is separate from publishing this repository.
+Public HTTP remains read-only. Full rendering stays in local/authorized SSH stdio. Publishing this update does not deploy a live server.

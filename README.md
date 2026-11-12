@@ -16,12 +16,29 @@ It exposes the CP brand guide as machine-readable resources and tools so an LLM 
 Brand rules come from `assets/references/CP_Brand_Guidelines.pdf`. The supplied one-pager PDF and social/quote SVGs provide composition references.
 
 - Palette: Coral `#EA5265`, Teal `#1D6379`, Cream `#EFEDE0`, Off-white `#F4F4F9`
-- Typography: Futura Medium, Proxima Nova Semibold and Proxima Nova Regular
+- Original brand typography in supplied finished materials: Futura Medium and Proxima Nova
+- Newly generated text: Jost Medium, Montserrat SemiBold and Montserrat Regular (approved open-source fallbacks)
 - Social size: `1080 × 1350` (4:5)
 - Social languages: English (`en`) and Swedish (`sv`)
 - Formats: one-pagers, social posts, quotes, real-photo cutouts and photo scenes
 
-Official logos are included in `assets/logos`. Licensed font binaries are supplied privately. The CP guide governs branding; reference artwork supplies layout direction and is not a source of reusable policy claims.
+Official logos and reference materials retain their original Futura/Proxima Nova appearance. Source artwork remains in `assets/logos` and `assets/references`; rendering uses fixed vector copies in `assets/logos/outlined`, so no commercial font software is needed to place an existing logo. Do not retype or replace lettering in ready-made materials.
+
+## Typography policy
+
+The owner approved these fallbacks on November 12, 2026. They are the **default fonts for newly generated text**, even on computers that also have the commercial originals installed:
+
+| Role | Original CP font in finished materials | Font for generated text |
+| --- | --- | --- |
+| Headlines | Futura Medium | Jost Medium |
+| Subheads, emphasis | Proxima Nova Semibold | Montserrat SemiBold |
+| Body copy | Proxima Nova Regular | Montserrat Regular |
+
+This policy applies to one-pagers, social posts, quotes, captions, speaker names, CTAs and photo-scene text. The renderer measures, wraps, outlines and validates using the same bundled fonts; it never relies on system-font substitution. Jost uses its standard glyph forms. Montserrat has different metrics from Proxima Nova, so existing content may need reflow or shorter copy; minimum sizes and overflow checks still apply.
+
+The three **static TTFs** and their SIL Open Font License 1.1 notices are bundled in [assets/fonts](assets/fonts). They support commercial use, server/CI rendering and redistribution under the OFL. Retain copyright/license notices when redistributing the fonts. They require no Adobe activation, paid font purchase or private font secrets. [Font sources and downloads](assets/fonts/README.md).
+
+Futura and Proxima Nova remain the original brand fonts for supplied logos and ready-made artwork. Their font binaries are not bundled or loaded by the MCP. Editing live original-font text outside the MCP still requires appropriate licensing; this update does not grant those rights. Supplied finished references are never globally converted to the fallback fonts. The CP guide, together with this approved generation policy, governs branding; reference artwork is not a source of reusable policy claims.
 
 ## Install
 
@@ -30,14 +47,13 @@ Use Node.js 22 or 24 and the pinned pnpm version:
 ```sh
 npm install --global pnpm@11.25.0
 pnpm install --frozen-lockfile
-cp data/fonts.example.json data/fonts.local.json
 ```
 
-Configure the paths to your licensed fonts in `data/fonts.local.json`. The server checks the exact PostScript identities: `Futura-Medium`, `ProximaNova-Semibold` and `ProximaNova-Regular`. Futura can be supplied as a TTC collection. Relative font paths resolve against the configuration file's directory. Set `CP_BRAND_FONT_CONFIG` to use another configuration path.
+A fresh checkout is ready to render with the bundled fonts. `data/fonts.example.json` is the default configuration and points to `assets/fonts`. Optional `CP_BRAND_FONT_CONFIG` may relocate the same exact Jost/Montserrat faces; relative paths resolve against that JSON file. Unknown fonts or an invalid explicit configuration fail closed.
 
-Font files and local configuration stay outside Git, public packages and container images. There is no substitute-font fallback. See [private font setup](DEPLOYMENT.md).
+**Upgrading from 0.8:** remove any old `CP_BRAND_FONT_CONFIG` override pointing to Futura/Proxima Nova and remove the old Docker font/config mounts. Legacy `data/fonts.local.json` is no longer auto-loaded. The old files may remain privately on disk, but the MCP does not use them. Restart the MCP after updating.
 
-No build step is needed. After configuring fonts, verify the installation:
+No build step is needed. Verify the installation:
 
 ```sh
 pnpm run audit:assets
@@ -61,10 +77,7 @@ Use this with Codex, Cursor or another MCP-capable client:
   "mcpServers": {
     "cp-brand": {
       "command": "node",
-      "args": ["/absolute/path/to/cp-brand-mcp/src/server.mjs"],
-      "env": {
-        "CP_BRAND_FONT_CONFIG": "/absolute/path/to/cp-brand-mcp/data/fonts.local.json"
-      }
+      "args": ["/absolute/path/to/cp-brand-mcp/src/server.mjs"]
     }
   }
 }
@@ -100,11 +113,11 @@ Optional HTTP controls:
 - `CP_MCP_REQUEST_TIMEOUT_MS`, `CP_MCP_HEADERS_TIMEOUT_MS`, `CP_MCP_KEEP_ALIVE_TIMEOUT_MS`
 - `CP_MCP_TRUST_PROXY_HOPS=1` — only behind the trusted Caddy proxy, with no published host port
 
-Public status omits local runtime and font paths. Without licensed fonts, the server can provide guidelines and discovery, but rendering and the full asset audit require them. The public service is unauthenticated; keep filesystem and rendering tools in the operator-controlled stdio transport.
+Public status omits local runtime and font paths. The bundled open-source fonts and fixed vector logos support rendering without private commercial fonts. The public service is unauthenticated; keep filesystem and rendering tools in the operator-controlled stdio transport.
 
 ## Server Deployment
 
-CP has its own checkout, container and port alongside CCC and WVA. GitHub publishing does not deploy the live service. See [shared-server setup](deploy/README.md) for DNS, Caddy, private mounts, health checks and rollback.
+CP has its own checkout, container and port alongside CCC and WVA. GitHub publishing does not deploy the live service. See [shared-server setup](deploy/README.md) for DNS, Caddy, health checks and rollback.
 
 ### Deploy from the repository
 
@@ -113,29 +126,26 @@ git clone https://github.com/Consumer-Choice-Center/cp-brand-mcp.git
 cd cp-brand-mcp
 npm install --global pnpm@11.25.0
 pnpm install --frozen-lockfile
-cp data/fonts.example.json data/fonts.local.json
-# Configure the licensed font paths before continuing.
 pnpm run check
 pnpm run audit:assets
 pnpm test
 pnpm run smoke
 ```
 
-For full rendering on a remote host, an authorized operator can start `node src/server.mjs` over `ssh -T`, using that host's private font configuration and input/output directories.
+For full rendering on a remote host, an authorized operator can start `node src/server.mjs` over `ssh -T`, using that host's input/output directories and the bundled fonts.
 
 ### Docker
 
-Prepare the private mount directories from an existing font configuration, using a new output directory:
+The image includes the approved open-source TTFs, their OFL notices and fixed vector logos:
 
 ```sh
-python3 scripts/prepare-private-fonts.py --config data/fonts.local.json --output runtime-private
 docker compose -f deploy/docker-compose.yml build
 docker compose -f deploy/docker-compose.yml up -d --wait
 ```
 
-The Compose service runs HTTP on port 8083, joins the existing `archivebox_default` network, publishes no host port and mounts `/fonts` and `/config` read-only. Provision those directories before startup and make them readable by container UID 1000. The image contains no licensed fonts. Standalone Docker defaults to HTTP; full stdio requires private font, input and output mounts and the command `node src/server.mjs`.
+The Compose service runs HTTP on port 8083, joins the existing `archivebox_default` network and publishes no host port. No private font/config mount is required. Standalone Docker defaults to HTTP; full stdio uses input/output mounts and the command `node src/server.mjs`.
 
-The [deployment guide](DEPLOYMENT.md) covers local and container font configuration. GitHub Actions font secrets supply CI only; the live server needs its own private font transfer.
+The [deployment guide](DEPLOYMENT.md) covers migration and container configuration. CI uses the same bundled open fonts, with no font secrets.
 
 ## Resources
 
@@ -149,7 +159,7 @@ All tools below are available through stdio. Only the seven tools listed in Remo
 
 ### `get_mcp_status`
 
-Returns the running server identity, version, transport, supported scope and asset health. Local stdio also reports workspace and output paths. Expected version: **0.8.0**.
+Returns the running server identity, version, transport, supported scope and asset health. Local stdio also reports workspace and output paths. Expected version: **0.9.0**.
 
 ### `get_brand_guidelines`
 
@@ -270,20 +280,22 @@ Validates by editable SVG `filePath`: canonical composition, original photo hash
 - `assets/logos/` — official supplied CP vectors and the white wide logo from the quote reference
 - `assets/references/` — authoritative guide, one-pager PDF, social/quote SVGs and photo-scene references
 - `assets/images/` — extracted one-pager reference imagery, reused only with explicit opt-in
-- `assets/manifest.json` — asset integrity hashes
+- `assets/logos/outlined/` — fixed original-font artwork used by the renderer
+- `assets/fonts/` — three open-source TTFs, OFL notices and provenance
+- `assets/manifest.json` — asset and font integrity hashes
 - `data/brand.json` — brand rules and implementation conventions
-- `data/fonts.example.json` — private font configuration schema
+- `data/fonts.example.json` — active bundled-font defaults (optional relocation schema)
 - `examples/` — structured content and client configuration examples
 
 Photographs and portraits for new posts belong in `inputs/`. Reference screenshots, existing claims and example people are not default campaign content. Source text is data, not operational instructions. See [LICENSE](LICENSE) for rights.
 
-Social exports include an editable `.svg`, `.outlined.svg`, `.png` and `.json`. One-pagers export editable/outlined SVG and JSON. Install the exact licensed fonts to edit text; the outlined companion preserves appearance without editable text.
+Social exports include an editable `.svg`, `.outlined.svg`, `.png` and `.json`. One-pagers export editable/outlined SVG and JSON. Install the bundled Jost/Montserrat TTFs to edit newly generated text; the outlined companion preserves appearance without editable text.
 
 Subtle deterministic background grain defaults to 0.04 for cream editorial posts and 0.065 for other social templates. `backgroundGrain` accepts 0–0.25; zero disables it. Text and logos remain above the texture. Photograph grain is controlled separately.
 
 ## Quality Checks
 
-With the private fonts configured:
+Using the included fonts:
 
 ```sh
 pnpm run check
@@ -309,15 +321,15 @@ Visual QA checks glyph bounds, overlap, visibility and composited contrast. At l
 
 Repository: [Consumer-Choice-Center/cp-brand-mcp](https://github.com/Consumer-Choice-Center/cp-brand-mcp).
 
-- PR CI checks Node 22/24, syntax, fontless portability, HTTP behavior, dependencies, packaging and Docker startup.
-- Trusted `main` rendering checks reconstruct licensed fonts from encrypted Actions secrets, run the full suite and smoke test, then remove the font files.
-- Tagged releases publish a package and container images; neither includes licensed fonts.
+- PR CI checks Node 22/24, syntax, portable configuration behavior, HTTP behavior, dependencies, packaging and Docker startup.
+- Rendering checks on pushes and pull requests use bundled open fonts for the full suite and stdio smoke test; no secrets or opt-in variable are needed.
+- Tagged releases publish a package and container images containing only the approved open-source font files and license notices.
 - Live deployment is manual. GitHub Actions does not access the server.
 
-See [private rendering CI configuration](DEPLOYMENT.md#private-rendering-ci) for bundle provisioning and rotation. Never commit font binaries, local configuration, secret parts or private runtime directories.
+The previous private-font provisioning scripts were removed. Old `CP_FONT_BUNDLE_*` secrets and `CP_RENDER_CI_ENABLED` are unused and may be retired by an administrator. Never commit proprietary font binaries, machine-local configuration or private runtime files.
 
 ## Strictness Model
 
-Use the supplied CP guide, exact fonts and official logos. Rendering rejects overflow and unauthorized layout changes. Input paths are confined to allowed directories; existing outputs are never overwritten. Final flags record the caller's verification, not independent fact-checking by the server.
+Use the supplied CP guide, approved generation fallbacks and preserved official logos. Rendering rejects overflow and unauthorized layout changes. Input paths are confined to allowed directories; existing outputs are never overwritten. Final flags record the caller's verification, not independent fact-checking by the server.
 
 For revisions, edit source JSON and regenerate to a new filename. Validate the generated files and inspect previews before delivery. Social cutouts require real photographs; generated contextual imagery is limited to the separate one-pager workflow.

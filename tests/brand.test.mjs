@@ -5,16 +5,17 @@ import path from 'node:path';
 import os from 'node:os';
 import {root,render,validateSvg,outlineSvg,createOnePager,validateFile,auditAssets} from '../src/brand.mjs';
 const example=JSON.parse(fs.readFileSync(path.join(root,'examples/one-pager.json'),'utf8'));
-test('CP assets and exact brand fonts are available',()=>assert.equal(auditAssets().ok,true));
+test('CP assets and bundled generation fonts are available',()=>assert.equal(auditAssets().ok,true));
 test('clean draft is valid, complete and editable',()=>{
  const {svg,content}=render(example);assert.equal(validateSvg(svg,content).ok,true);
- assert.ok(svg.includes('ProximaNova-Regular'));assert.ok(svg.includes('Futura-Medium'));
- assert.ok(!/Montserrat|Anton|Hind|DM Mono|#E95C1F|#22264E/i.test(svg.replace(/data:image\/[^"]+/g,'')));
+ assert.ok(svg.includes('Montserrat-Regular'));assert.ok(svg.includes('Jost-Medium'));
+ assert.ok(!/font-family[^;>]*?(?:Futura|ProximaNova)/.test(svg));
+ assert.ok(!/Anton|Hind|DM Mono|#E95C1F|#22264E/i.test(svg.replace(/data:image\/[^"]+/g,'')));
  const outlined=outlineSvg(svg);assert.ok(!/<text\b/.test(outlined));assert.ok(outlined.includes('<path'));
 });
 test('validator rejects foreign palette, fonts, scripts, missing logo and geometry edits',()=>{
  const {svg,content}=render(example);
- for(const changed of [svg.replace('#1D6379','#22264E'),svg.replace('Futura-Medium','Arial'),svg.replace('</svg>','<script>alert(1)</script></svg>'),svg.replace('data-cp-logo','data-removed-logo'),svg.replace('width="1186.5"','width="1080"')])assert.equal(validateSvg(changed,content).ok,false);
+ for(const changed of [svg.replace('#1D6379','#22264E'),svg.replace('Jost-Medium','Arial'),svg.replace('</svg>','<script>alert(1)</script></svg>'),svg.replace('data-cp-logo','data-removed-logo'),svg.replace('width="1186.5"','width="1080"')])assert.equal(validateSvg(changed,content).ok,false);
 });
 test('long or unbreakable text fails instead of clipping',()=>{
  assert.throws(()=>render({...example,headline:'W'.repeat(100)}),/overflow/);

@@ -2,13 +2,12 @@ name: Rendering regression checks
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   render:
-    # Only trusted main code receives the private font secrets.
-    if: github.ref == 'refs/heads/main' && vars.CP_RENDER_CI_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,29 +17,6 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Provision exact licensed fonts privately
-        env:
-          CP_FONT_BUNDLE_01: ${{ secrets.CP_FONT_BUNDLE_01 }}
-          CP_FONT_BUNDLE_02: ${{ secrets.CP_FONT_BUNDLE_02 }}
-          CP_FONT_BUNDLE_03: ${{ secrets.CP_FONT_BUNDLE_03 }}
-          CP_FONT_BUNDLE_04: ${{ secrets.CP_FONT_BUNDLE_04 }}
-          CP_FONT_BUNDLE_05: ${{ secrets.CP_FONT_BUNDLE_05 }}
-          CP_FONT_BUNDLE_06: ${{ secrets.CP_FONT_BUNDLE_06 }}
-          CP_FONT_BUNDLE_07: ${{ secrets.CP_FONT_BUNDLE_07 }}
-          CP_FONT_BUNDLE_08: ${{ secrets.CP_FONT_BUNDLE_08 }}
-          CP_FONT_BUNDLE_09: ${{ secrets.CP_FONT_BUNDLE_09 }}
-          CP_FONT_BUNDLE_10: ${{ secrets.CP_FONT_BUNDLE_10 }}
-          CP_FONT_BUNDLE_11: ${{ secrets.CP_FONT_BUNDLE_11 }}
-          CP_FONT_BUNDLE_12: ${{ secrets.CP_FONT_BUNDLE_12 }}
-          CP_FONT_BUNDLE_13: ${{ secrets.CP_FONT_BUNDLE_13 }}
-          CP_FONT_BUNDLE_14: ${{ secrets.CP_FONT_BUNDLE_14 }}
-          CP_FONT_BUNDLE_15: ${{ secrets.CP_FONT_BUNDLE_15 }}
-          CP_FONT_BUNDLE_16: ${{ secrets.CP_FONT_BUNDLE_16 }}
-          CP_FONT_BUNDLE_SHA256: ${{ secrets.CP_FONT_BUNDLE_SHA256 }}
-        run: python3 scripts/provision-ci-fonts.py
       - run: pnpm run audit:assets
       - run: pnpm test
       - run: pnpm run smoke
-      - name: Remove licensed fonts
-        if: always()
-        run: rm -rf "$RUNNER_TEMP/cp-render-fonts"

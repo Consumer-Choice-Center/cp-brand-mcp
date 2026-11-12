@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import {Client} from '@modelcontextprotocol/sdk/client/index.js';
 import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';
 const root=path.resolve(import.meta.dirname,'..');
-test('public install starts without private fonts, serves rules and blocks rendering',async()=>{
+test('invalid explicit font configuration serves rules but fails rendering closed',async()=>{
  const client=new Client({name:'cp-portable-test',version:'1.0.0'});
  const temp=fs.mkdtempSync(path.join(os.tmpdir(),'cp-public-'));
  await client.connect(new StdioClientTransport({command:process.execPath,args:[path.join(root,'src/server.mjs')],env:{...process.env,CP_BRAND_FONT_CONFIG:path.join(temp,'missing.json'),CP_BRAND_OUTPUT_DIR:temp}}));

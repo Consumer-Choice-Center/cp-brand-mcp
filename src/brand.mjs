@@ -9,7 +9,9 @@ import {z} from 'zod';
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const outputRoot = path.resolve(process.env.CP_BRAND_OUTPUT_DIR || path.join(root,'deliverables'));
 export const brand = JSON.parse(fs.readFileSync(path.join(root,'data/brand.json'),'utf8'));
-const fontConfigPath=path.resolve(process.env.CP_BRAND_FONT_CONFIG || (fs.existsSync(path.join(root,'data/fonts.local.json')) ? path.join(root,'data/fonts.local.json') : path.join(root,'data/fonts.example.json')));
+// Bundled generation fonts always win over legacy machine-local proprietary fonts.
+// An explicit override may relocate these same approved open-source faces only.
+const fontConfigPath=path.resolve(process.env.CP_BRAND_FONT_CONFIG || path.join(root,'data/fonts.example.json'));
 let fontsConfig={},fontConfigError;
 try {
   fontsConfig=JSON.parse(fs.readFileSync(fontConfigPath,'utf8'));
@@ -22,7 +24,9 @@ const clean = n => Math.round(n*1000)/1000;
 const cache = new Map();
 export function font(role) {
   if(!cache.has(role)) {
-    const c=fontsConfig[role]; const loaded=openSync(c.path);
+    const c=fontsConfig[role];
+    if(!c || c.postscriptName!==brand.typography[role]) throw Error(`Expected bundled generation font ${brand.typography[role]}; remove legacy CP_BRAND_FONT_CONFIG overrides.`);
+    const loaded=openSync(c.path);
     const f=loaded.fonts ? loaded.fonts.find(f=>f.postscriptName===c.postscriptName) : loaded;
     if(!f || f.postscriptName!==brand.typography[role]) throw Error(`Missing exact CP ${role} font: ${brand.typography[role]}`);
     cache.set(role,f);
@@ -149,8 +153,8 @@ function readHero(file) {
   return `data:image/${type};base64,${b.toString('base64')}`;
 }
 function officialLogo(name) {
-  // Retain original SVG including editable logo glyphs and their transforms.
-  const svg=fs.readFileSync(path.join(root,'assets/logos',name),'utf8');
+  // Fixed vector artwork preserves original Futura lettering without runtime font access.
+  const svg=fs.readFileSync(path.join(root,'assets/logos/outlined',name),'utf8');
   const wide=name.includes('Wide'); const box=wide?'x="850" y="1442" width="287" height="67"':'x="1047" y="1410" width="90" height="100"';
   return svg.replace('<svg ',`<svg data-cp-logo="${name}" ${box} preserveAspectRatio="xMidYMid meet" `);
 }
@@ -296,7 +300,7 @@ export function validateSvg(svg,content) {
     const allowed=new Set([...Object.values(brand.colors),'#FFFFFF'].map(s=>s.toLowerCase()));
     for(const color of svg.match(/#[0-9a-f]{3,8}\b/gi)||[]) if(!allowed.has(color.toLowerCase()) && color.toLowerCase()!=='#fff')violations.push(`Unapproved CP color: ${color}`);
     for(const family of svg.matchAll(/font-family\s*[=:]\s*["']?([^;"'}>]+)/g)) {
-      if(!Object.values(brand.typography).some(f=>family[1].includes(f))) violations.push(`Unapproved CP font: ${family[1]}`);
+      if(!['headline','subhead','body'].some(role=>family[1].includes(brand.typography[role]))) violations.push(`Unapproved CP font: ${family[1]}`);
     }
     for(const image of Array.from(doc.getElementsByTagName('image'))) if(!/^data:image\/(png|jpeg);base64,/.test(image.getAttribute('xlink:href')||''))violations.push('Image must be embedded PNG/JPEG');
     const canonical=render(content).svg;

@@ -29,6 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t cp-brand-mcp:test .
+      - name: Render with bundled fonts and frozen logos
+        run: docker run --rm cp-brand-mcp:test node scripts/smoke-test.mjs
       - name: Test packaged stdio connection without private fonts
         run: |
           printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"ci","version":"1.0.0"}}}' | docker run --rm -i cp-brand-mcp:test node src/server.mjs | tee /tmp/mcp-result

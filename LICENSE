@@ -3,5 +3,9 @@ Copyright (c) Consumer Choice Center. All rights reserved.
 This repository is publicly available for inspection. No open-source license or
 trademark license is granted. Brand logos, guidelines, reference documents and
 images remain the property of their respective rights holders. Futura and
-Proxima Nova font binaries are not distributed with this repository. Users must
-provide appropriately licensed fonts for their own deployment.
+Proxima Nova font binaries are not distributed with this repository. The bundled
+Jost and Montserrat font software is separately licensed under the
+SIL Open Font License 1.1. See assets/fonts/Jost-OFL.txt and
+assets/fonts/Montserrat-OFL.txt; those licenses govern the fonts rather than the
+all-rights-reserved terms above. No commercial font files are required for the
+default generation workflow.

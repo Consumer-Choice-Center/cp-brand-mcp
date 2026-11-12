@@ -19,10 +19,17 @@
     "Natural photographs are exempt from the vector palette; do not apply color overlays."
   ],
   "typography": {
-    "headline": "Futura-Medium",
-    "subhead": "ProximaNova-Semibold",
-    "body": "ProximaNova-Regular",
-    "rule": "Use full installed font files. Never substitute CCC fonts or reuse PDF font subsets."
+    "headline": "Jost-Medium",
+    "subhead": "Montserrat-SemiBold",
+    "body": "Montserrat-Regular",
+    "rule": "Approved fallback policy: use bundled Jost Medium and Montserrat Regular/SemiBold as the default for all newly generated text. Preserve Futura and Proxima Nova appearance in supplied logos and finished materials; do not retype or substitute their lettering. No proprietary font files are required for generation.",
+    "originalBrandFonts": {
+      "headline": "Futura-Medium",
+      "subhead": "ProximaNova-Semibold",
+      "body": "ProximaNova-Regular"
+    },
+    "readyMadeAssets": "Use supplied finished artwork unchanged. Runtime logos use fixed vector copies in assets/logos/outlined; editable originals and reference materials remain preserved.",
+    "fallbackPolicyApproved": "2026-11-12"
   },
   "logo": {
     "default": "CP_Logo_Wide_1.svg",
@@ -40,7 +47,7 @@
     "structure": [
       "Subtle oversized CP pouch-symbol watermark across the page background",
       "Teal hero field",
-      "Futura headline with coral emphasis",
+      "Jost headline with coral emphasis",
       "Topic-specific generated central visual inside a filled cream circle with a coral outline",
       "Three outward-connected key points, each with a distinct generated image above its heading and body",
       "Coral evidence/statistic panel",

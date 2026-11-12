@@ -14,19 +14,13 @@ The CP hostname and Caddy fragment are deployment configuration, not a claim of 
 
 Public HTTP is stateless and read-only, matching CCC/WVA: **7 tools and 3 resources** for guidelines, status, asset audit, templates, spelling and generation/photo briefs. It exposes no upload, render, server-file-path, download or filesystem-write tools. Public status redacts runtime and font paths. HTTP has host validation, rate/body/concurrency limits, security headers and bounded timeouts.
 
-Local or operator-controlled SSH stdio exposes **all 18 tools**, including one-pagers, social posts, quotes, photo cutouts and validation. It requires licensed fonts and input/output directories. A public hosted rendering/upload service is not included.
+Local or operator-controlled SSH stdio exposes **all 18 tools**, including one-pagers, social posts, quotes, photo cutouts and validation. It uses bundled open fonts and operator-controlled input/output directories. A public hosted rendering/upload service is not included.
 
-## Private fonts
+## Bundled fonts and preserved artwork
 
-On a machine with the licensed fonts configured, run:
+Jost Medium and Montserrat Regular/SemiBold are included as static TTFs with OFL notices. New text uses these approved fallback faces; finished logos use fixed vectors preserving original Futura lettering. Source logos/reference artwork are retained unchanged.
 
-```sh
-python3 scripts/prepare-private-fonts.py --config data/fonts.local.json --output runtime-private
-```
-
-This creates private `fonts/` and `config/fonts.json` mount directories, plus CI secret parts. `runtime-private/` is excluded from Git, npm packages and Docker build context. Copy **only** `runtime-private/fonts` and `runtime-private/config` through an authenticated private transfer to the CP server checkout. Never put fonts or CI secret parts in a public release. On Linux, make the mount directories readable by container UID 1000; use owner-only directory/file permissions (0700/0600). The read-only mounts point to `/fonts` and `/config/fonts.json`. Alternatively place the fonts elsewhere and set absolute `CP_FONT_DIRECTORY` / `CP_FONT_CONFIG_DIRECTORY` in `deploy/.env`.
-
-Verify the exact font identities and asset hashes before rendering. No fallback fonts are used.
+No private font transfer or `/fonts` / `/config` mounts are required. On upgrade, remove legacy `CP_BRAND_FONT_CONFIG` overrides and old font/config bind mounts. The default Compose file already does this. Old local files are not automatically loaded, and no CI font secrets are used. See [font policy](../README.md#typography-policy).
 
 ## Bootstrap on the shared server
 
@@ -34,7 +28,6 @@ Verify the exact font identities and asset hashes before rendering. No fallback 
 cd /home/archive
 git clone https://github.com/Consumer-Choice-Center/cp-brand-mcp.git
 cd cp-brand-mcp
-# Transfer the private font/config directories before this step.
 docker network inspect archivebox_default
 docker compose -f deploy/docker-compose.yml config --quiet
 docker compose -f deploy/docker-compose.yml build
@@ -73,10 +66,10 @@ docker compose -f deploy/docker-compose.yml build
 docker compose -f deploy/docker-compose.yml up -d --wait
 ```
 
-Keep the previous commit and private configuration. Roll back only CP:
+Keep the previous image and its matching configuration for rollback. Roll back only CP:
 
 ```sh
 CP_BRAND_MCP_IMAGE=cp-brand-mcp:previous docker compose -f deploy/docker-compose.yml up -d --no-build --wait
 ```
 
-The image runs as non-root. Compose uses a read-only root filesystem, private read-only font mounts, resource limits and rotating logs. Caddy is the single trusted proxy hop; keep port 8083 unexposed on the host while that trust is enabled.
+The image runs as non-root. Compose uses a read-only root filesystem, bundled open fonts, resource limits and rotating logs. Caddy is the single trusted proxy hop; keep port 8083 unexposed on the host while that trust is enabled.
